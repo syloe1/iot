@@ -10,8 +10,21 @@ type LoginResp {
 	UserId int64  `json:"userId"`
 }
 
+type RegisterReq {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
+type RegisterResp {
+	Success bool   `json:"success"`
+	UserId  int64  `json:"userId"`
+	Msg     string `json:"msg"`
+}
 
 service user-api {
+	@handler register
+	post /api/user/register (RegisterReq) returns (RegisterResp)
+
 	@handler login
 	post /api/user/login (LoginReq) returns (LoginResp)
 }

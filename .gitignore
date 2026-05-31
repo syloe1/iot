@@ -1,1 +1,18 @@
+# Go 缓存、编译产物
 .gocache/
+*.exe
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# IDE 配置
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# 日志、临时文件
+*.log
+tmp/

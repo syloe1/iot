@@ -1,0 +1,7 @@
+Name: push-api
+Host: 0.0.0.0
+Port: 8892
+
+Redis:
+  Host: 127.0.0.1:16379
+  Type: node

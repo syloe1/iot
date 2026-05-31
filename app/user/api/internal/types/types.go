@@ -12,3 +12,14 @@ type LoginResp struct {
 	Token  string `json:"token"`
 	UserId int64  `json:"userId"`
 }
+
+type RegisterReq struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
+type RegisterResp struct {
+	Success bool   `json:"success"`
+	UserId  int64  `json:"userId"`
+	Msg     string `json:"msg"`
+}

@@ -1,0 +1,14 @@
+syntax = "v1"
+
+info (
+	title:  "push api"
+	desc:   "Realtime push endpoints"
+	author: "xxx"
+	email:  "xxx@xxx.com"
+)
+
+service push-api {
+	@handler deviceStatus
+	get /api/push/device/status
+}
+

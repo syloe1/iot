@@ -1,0 +1,14 @@
+Name: openapi-api
+Host: 0.0.0.0
+Port: 8891
+
+DeviceRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:12379
+    Key: device.rpc
+
+SignAuth:
+  ExpireSeconds: 300
+  Apps:
+    test-app: test-secret

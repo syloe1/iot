@@ -1,0 +1,27 @@
+syntax = "v1"
+
+info (
+	title:  "openapi api"
+	desc:   "External OpenAPI endpoints"
+	author: "xxx"
+	email:  "xxx@xxx.com"
+)
+
+type SendMsgReq {
+	DeviceKey string `json:"device_key"`
+	Payload   string `json:"payload"`
+}
+
+type SendMsgResp {
+	Success bool   `json:"success"`
+	Msg     string `json:"msg"`
+}
+
+@server (
+	middleware: SignAuth
+)
+service openapi-api {
+	@handler sendMsg
+	post /openapi/device/send (SendMsgReq) returns (SendMsgResp)
+}
+

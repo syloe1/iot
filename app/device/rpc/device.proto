@@ -1,0 +1,76 @@
+syntax = "proto3";
+
+package device;
+
+option go_package = "./device";
+
+message DeviceInfo {
+  int64 id = 1;
+  int64 product_id = 2;
+  string name = 3;
+  string device_key = 4;
+  int32 status = 5;
+  string last_online_time = 6;
+  string created_at = 7;
+  string updated_at = 8;
+}
+
+message DeviceListReq {
+  int64 page = 1;
+  int64 page_size = 2;
+  int64 product_id = 3;
+  int32 status = 4;
+  string keyword = 5;
+}
+
+message DeviceListResp {
+  int64 total = 1;
+  repeated DeviceInfo list = 2;
+}
+
+message DeviceCreateReq {
+  int64 product_id = 1;
+  string name = 2;
+  string device_key = 3;
+  int32 status = 4;
+}
+
+message DeviceCreateResp {
+  int64 id = 1;
+}
+
+message DeviceUpdateReq {
+  int64 id = 1;
+  int64 product_id = 2;
+  string name = 3;
+  string device_key = 4;
+  int32 status = 5;
+  string last_online_time = 6;
+}
+
+message DeviceUpdateResp {
+  bool success = 1;
+}
+
+message DeviceDeleteReq {
+  int64 id = 1;
+}
+
+message DeviceDeleteResp {
+  bool success = 1;
+}
+
+message Empty {}
+
+message SendMessageToDeviceReq {
+  string device_key = 1;
+  bytes payload = 2;
+}
+
+service DeviceSvc {
+  rpc deviceList(DeviceListReq) returns(DeviceListResp);
+  rpc deviceCreate(DeviceCreateReq) returns(DeviceCreateResp);
+  rpc deviceUpdate(DeviceUpdateReq) returns(DeviceUpdateResp);
+  rpc deviceDelete(DeviceDeleteReq) returns(DeviceDeleteResp);
+  rpc sendMessageToDevice(SendMessageToDeviceReq) returns(Empty);
+}

@@ -1,0 +1,82 @@
+syntax = "v1"
+
+info (
+	title:  "device api"
+	desc:   "IoT device CRUD api"
+	author: "xxx"
+	email:  "xxx@xxx.com"
+)
+
+type DeviceItem {
+	Id             int64  `json:"id"`
+	ProductId      int64  `json:"product_id"`
+	Name           string `json:"name"`
+	DeviceKey      string `json:"device_key"`
+	Status         int32  `json:"status"`
+	LastOnlineTime string `json:"last_online_time"`
+	CreatedAt      string `json:"created_at"`
+	UpdatedAt      string `json:"updated_at"`
+}
+
+type DeviceListReq {
+	Page      int64  `form:"page"`
+	PageSize  int64  `form:"page_size"`
+	ProductId int64  `form:"product_id,optional"`
+	Status    int32  `form:"status,optional"`
+	Keyword   string `form:"keyword,optional"`
+}
+
+type DeviceListResp {
+	Total int64        `json:"total"`
+	List  []DeviceItem `json:"list"`
+}
+
+type DeviceCreateReq {
+	ProductId int64  `json:"product_id"`
+	Name      string `json:"name"`
+	DeviceKey string `json:"device_key"`
+	Status    int32  `json:"status"`
+}
+
+type DeviceCreateResp {
+	Id int64 `json:"id"`
+}
+
+type DeviceUpdateReq {
+	Id             int64  `json:"id"`
+	ProductId      int64  `json:"product_id"`
+	Name           string `json:"name"`
+	DeviceKey      string `json:"device_key"`
+	Status         int32  `json:"status"`
+	LastOnlineTime string `json:"last_online_time,optional"`
+}
+
+type DeviceUpdateResp {
+	Success bool `json:"success"`
+}
+
+type DeviceDeleteReq {
+	Id int64 `path:"id"`
+}
+
+type DeviceDeleteResp {
+	Success bool `json:"success"`
+}
+
+@server (
+	prefix: /api/device
+)
+service device-api {
+	@handler deviceList
+	get /list (DeviceListReq) returns (DeviceListResp)
+
+	@handler deviceCreate
+	post /create (DeviceCreateReq) returns (DeviceCreateResp)
+
+	@handler deviceUpdate
+	put /update (DeviceUpdateReq) returns (DeviceUpdateResp)
+
+	@handler deviceDelete
+	delete /delete/:id (DeviceDeleteReq) returns (DeviceDeleteResp)
+}
+

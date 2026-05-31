@@ -1,0 +1,12 @@
+Name: device-consumer
+
+Mysql:
+  DataSource: root:123456@tcp(127.0.0.1:3307)/iot?charset=utf8mb4&parseTime=true&loc=Local
+
+Mqtt:
+  Broker: tcp://127.0.0.1:1883
+  ClientId: device-consumer
+
+Redis:
+  Host: 127.0.0.1:16379
+  Type: node

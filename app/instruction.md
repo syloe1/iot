@@ -126,3 +126,51 @@ app/product/api/productapi.api
 ```
 
 If a nested folder such as `app/product/api/productapi` appears, it usually means `goctl api go` was run with a nested `-dir`. Pick one layout and keep using the same `-dir`.
+
+## MQTT device messaging flow
+
+The device side now uses MQTT instead of a hand-written WebSocket connector.
+
+Command flow:
+
+```text
+openapi-api -> device-rpc -> MQTT publish -> device
+```
+
+Status flow:
+
+```text
+device -> MQTT publish -> device-consumer -> mysql + Redis Pub/Sub -> push-api SSE -> admin frontend
+```
+
+Topic conventions:
+
+```text
+device/{deviceKey}/command    backend publishes command payloads here
+device/{deviceKey}/heartbeat  device publishes heartbeat here
+device/{deviceKey}/status     device publishes "online" or "offline" here
+```
+
+Runtime dependencies:
+
+```text
+MySQL  127.0.0.1:3307
+Etcd   127.0.0.1:12379
+MQTT   127.0.0.1:1883
+Redis  127.0.0.1:16379
+```
+
+Service startup example:
+
+```bash
+go run ./app/device/rpc/device.go -f ./app/device/rpc/etc/device.yaml
+go run ./app/device/consumer/deviceconsumer.go -f ./app/device/consumer/etc/device-consumer.yaml
+go run ./app/openapi/api/openapi.go -f ./app/openapi/api/etc/openapi-api.yaml
+go run ./app/push/api/push.go -f ./app/push/api/etc/push-api.yaml
+```
+
+Admin frontend can subscribe to device status events with:
+
+```text
+GET http://127.0.0.1:8892/api/push/device/status
+```
