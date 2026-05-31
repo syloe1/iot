@@ -1,0 +1,14 @@
+Name: user.rpc
+ListenOn: 0.0.0.0:8080
+Mysql:
+  DataSource: root:123456@tcp(127.0.0.1:3307)/iot?charset=utf8mb4&parseTime=true&loc=Local
+CacheRedis:
+  - Host: 127.0.0.1:16379
+    Type: node
+JwtAuth:
+  AccessSecret: "testtesttest"
+  AccessExpire: 3600
+Etcd:
+  Hosts:
+  - 127.0.0.1:12379
+  Key: user.rpc

@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package product;
+option go_package = "./product";
+message Product {
+  int64 id = 1;
+  string name = 2;
+  string description = 3;
+}
+message CreateProductReq {
+  string name = 1;
+  string description = 2;
+}
+message CreateProductResp {
+  bool success = 1;
+  int64 product_id = 2;
+  string msg = 3;
+}
+message UpdateProductReq {
+  int64 id = 1;
+  string name = 2;
+  string description = 3;
+}
+message UpdateProductResp {
+  bool success = 1;
+  string msg = 2;
+}
+message DeleteProductReq {
+  int64 id = 1;
+}
+message DeleteProductResp {
+  bool success = 1;
+  string msg = 2;
+}
+
+message ProductListReq {
+  int64 page = 1;
+  int64 page_size = 2;
+  string name = 3;
+}
+
+message ProductListResp {
+  bool success = 1;
+  int64 total = 2;
+  repeated Product list = 3;
+  string msg = 4;
+}
+service ProductSvc{
+  rpc CreateProduct(CreateProductReq) returns (CreateProductResp);
+  rpc UpdateProduct(UpdateProductReq) returns (UpdateProductResp);
+  rpc DeleteProduct(DeleteProductReq) returns (DeleteProductResp);
+  rpc GetProductList(ProductListReq) returns (ProductListResp);
+}

@@ -1,0 +1,69 @@
+syntax = "v1"
+
+type Product {
+	Id          int64  `json:"id"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
+}
+
+type CreateProductReq {
+	Name        string `json:"name"`
+	Description string `json:"description"`
+}
+
+type CreateProductResp {
+	Success   bool   `json:"success"`
+	ProductId int64  `json:"product_id"`
+	Msg       string `json:"msg"`
+}
+
+type UpdateProductReq {
+	Id          int64  `json:"id"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
+}
+
+type UpdateProductResp {
+	Success bool   `json:"success"`
+	Msg     string `json:"msg"`
+}
+
+type DeleteProductReq {
+	Id int64 `path:"id"`
+}
+
+type DeleteProductResp {
+	Success bool   `json:"success"`
+	Msg     string `json:"msg"`
+}
+
+type ProductListReq {
+	Page     int64  `form:"page"`
+	PageSize int64  `form:"page_size"`
+	Name     string `form:"name,optional"`
+}
+
+type ProductListResp {
+	Success bool      `json:"success"`
+	Total   int64     `json:"total"`
+	List    []Product `json:"list"`
+	Msg     string    `json:"msg"`
+}
+
+@server (
+	prefix: /api/product
+)
+service productapi-api {
+	@handler createProduct
+	post /create (CreateProductReq) returns (CreateProductResp)
+
+	@handler updateProduct
+	put /update (UpdateProductReq) returns (UpdateProductResp)
+
+	@handler deleteProduct
+	delete /delete/:id (DeleteProductReq) returns (DeleteProductResp)
+
+	@handler getProductList
+	get /list (ProductListReq) returns (ProductListResp)
+}
+
